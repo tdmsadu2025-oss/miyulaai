@@ -72,3 +72,4 @@ function typeText(text, element) {
 }
 
 
+
