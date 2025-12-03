@@ -17,7 +17,7 @@ async function sendMessage() {
     appendMessage("user", message);
     userInput.value = "";
 
-    // Typing effect
+    // Typing placeholder
     const typingDiv = document.createElement("div");
     typingDiv.classList.add("bot-message");
     typingDiv.innerText = "Typing...";
@@ -39,10 +39,16 @@ async function sendMessage() {
         });
 
         const data = await response.json();
-        const botMessage = data?.candidates?.[0]?.content || "Sorry, I didn't understand that.";
-        
-        typingDiv.innerText = "";
-        typeText(botMessage, typingDiv);
+        const botMessage = data?.candidates?.[0]?.content;
+
+        // Only show message if API returns text
+        if (botMessage && botMessage.trim() !== "") {
+            typingDiv.innerText = "";
+            typeText(botMessage, typingDiv);
+        } else {
+            // If API returns empty or invalid, remove typing placeholder
+            chatBox.removeChild(typingDiv);
+        }
 
     } catch (error) {
         console.error(error);
@@ -70,6 +76,4 @@ function typeText(text, element) {
         }
     }, 30);
 }
-
-
 
