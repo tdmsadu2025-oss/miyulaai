@@ -71,3 +71,4 @@ function typeText(text, element) {
     }, 30);
 }
 
+
